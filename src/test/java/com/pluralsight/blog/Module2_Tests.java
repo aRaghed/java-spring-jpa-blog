@@ -201,17 +201,16 @@ public class Module2_Tests {
         // Replace data-categories.sql file to add Categories
         // Open data-categories.sql file and check contents
         Path path = Paths.get("src/main/resources/data.sql");
+        ClassLoader classLoader = getClass().getClassLoader();
+
         String result = "";
-        try {
-            final String output = "";
-            List<String> allLines = Files.readAllLines(path);
-            result = String.join("\n", allLines);
+        try (InputStream inputStream = classLoader.getResourceAsStream("data.sql")) {
+            result = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             //e.printStackTrace();
         }
 
         String resultResource = "";
-        ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream("data-categories.sql")) {
             resultResource = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
